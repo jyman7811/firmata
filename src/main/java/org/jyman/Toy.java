@@ -18,6 +18,11 @@ public class Toy {
     }
 
     public void setAngle(int angle) {
+        if (angle == this.angle) {
+            this.stuckCount += 1;
+        } else {
+            this.resetStuckCount();
+        }
         this.angle = angle;
     }
 
@@ -33,7 +38,7 @@ public class Toy {
         this.reversed = reversed;
     }
 
-    public void resetStuckCount() {
+    private void resetStuckCount() {
         this.stuckCount = 0;
     }
 

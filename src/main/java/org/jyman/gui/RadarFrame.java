@@ -1,9 +1,6 @@
 package org.jyman.gui;
 
-import org.jyman.Main;
-
 import javax.swing.*;
-import java.util.Objects;
 
 public class RadarFrame extends JFrame {
     public RadarFrame() {

@@ -53,6 +53,16 @@ public class Main {
         TimerTask servoTask = new TimerTask() {
             @Override
             public void run() {
+                if (toy.getStuckCount() == 3) {
+                    try {
+                        device.stop();
+                        device.start();
+                        device.ensureInitializationIsDone();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
                 if (!toy.isReversed()) {
                     if (toy.getAngle() <= centre - azimuthArray[azimuthIndex] / 2) { // Limit
                         toy.setReversed(true);
@@ -73,9 +83,9 @@ public class Main {
                 try {
                     servoPin.setValue(toy.getAngle());
 
-//                    measure.run();
-//                    double distance = toy.getMessage() * coefficient;
-//                    System.out.println(distance);
+                    measure.run();
+                    double distance = toy.getMessage() * coefficient;
+                    System.out.println(distance);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
