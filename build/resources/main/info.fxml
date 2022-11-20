@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.jyman.gui.InfoController">
+   <children>
+      <Separator layoutX="80.0" layoutY="270.0" orientation="VERTICAL" prefHeight="106.0" prefWidth="440.0" style="-fx-border-color: black;">
+         <effect>
+            <Glow level="0.0" />
+         </effect></Separator>
+      <Label layoutX="136.0" layoutY="282.0" text="Distance">
+         <font>
+            <Font name="Malgun Gothic Semilight" size="30.0" />
+         </font>
+      </Label>
+      <Label layoutX="372.0" layoutY="283.0" text="Angle">
+         <font>
+            <Font name="Malgun Gothic Semilight" size="30.0" />
+         </font></Label>
+      <Label fx:id="distance" alignment="CENTER" layoutX="131.0" layoutY="320.0" prefHeight="45.0" prefWidth="126.0" text="0cm">
+         <font>
+            <Font name="Malgun Gothic Semilight" size="31.0" />
+         </font>
+      </Label>
+      <Label fx:id="angle" alignment="CENTER" layoutX="345.0" layoutY="317.0" prefHeight="52.0" prefWidth="135.0" text="0°">
+         <font>
+            <Font name="Malgun Gothic Semilight" size="31.0" />
+         </font>
+      </Label>
+      <Button mnemonicParsing="false" text="Button" />
+   </children>
+</AnchorPane>
