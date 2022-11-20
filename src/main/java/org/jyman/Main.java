@@ -1,16 +1,29 @@
 package org.jyman;
 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import org.firmata4j.IODevice;
 import org.firmata4j.Pin;
 import org.firmata4j.firmata.FirmataDevice;
-import org.jyman.gui.RadarFrame;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Main {
+public class Main extends Application {
+    @Override
+    public void start(Stage primaryStage) {
+        HBox hBox = new HBox();
+
+        primaryStage.setScene(new Scene(hBox, 500, 500));
+        primaryStage.setTitle("하야세 유우카 카와이 ><");
+        primaryStage.show();
+    }
+
     public static void main(String[] args) throws IOException, InterruptedException {
 
         Toy toy = new Toy();
@@ -53,15 +66,32 @@ public class Main {
         TimerTask servoTask = new TimerTask() {
             @Override
             public void run() {
-                if (toy.getStuckCount() == 3) {
+                if (toy.getStuckCount() >= 3) {
                     try {
+                        System.out.println("시리얼이 응답하지 않습니다. 연결을 초기화합니다.");
                         device.stop();
+                        Thread.sleep(5000);
+                        toy.resetStuckCount();
                         device.start();
                         device.ensureInitializationIsDone();
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                 }
+
+                measure.run();
+                double distance = toy.getMessage() * coefficient;
+                if (distance > 1300) {
+                    try {
+                        System.out.println("올바르지 않은 측정값, 0.5초 대기합니다.");
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    measure.run();
+                    distance = toy.getMessage() * coefficient;
+                }
+                System.out.println("각도: " + toy.getAngle() + ", 거리: " + distance + "cm");
 
                 if (!toy.isReversed()) {
                     if (toy.getAngle() <= centre - azimuthArray[azimuthIndex] / 2) { // Limit
@@ -82,10 +112,6 @@ public class Main {
                 }
                 try {
                     servoPin.setValue(toy.getAngle());
-
-                    measure.run();
-                    double distance = toy.getMessage() * coefficient;
-                    System.out.println(distance);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -94,8 +120,7 @@ public class Main {
 
         Timer servoTimer = new Timer("Servo");
         servoTimer.schedule(servoTask, 0, servoInterval);
-        new RadarFrame();
+
+        launch(args);
     }
-
-
 }

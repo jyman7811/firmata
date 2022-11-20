@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
 }
 
 group 'org.example'
@@ -9,9 +11,14 @@ repositories {
     mavenCentral()
 }
 
+javafx {
+    version = "16"
+    modules = ['javafx.controls', 'javafx.graphics']
+}
+
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
 
     implementation 'com.github.kurbatov:firmata4j:2.3.8'
     implementation 'com.fazecast:jSerialComm:2.9.2'
@@ -20,4 +27,13 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+application {
+    mainModule.set('org.jyman')
+    mainClass.set('org.jyman.Main')
+}
+
+java {
+    modularity.inferModulePath.set(true)
 }

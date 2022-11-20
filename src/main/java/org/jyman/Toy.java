@@ -14,15 +14,15 @@ public class Toy {
     }
 
     public void setMessage(long message) {
-        this.message = message;
-    }
-
-    public void setAngle(int angle) {
-        if (angle == this.angle) {
+        if (message == this.message) {
             this.stuckCount += 1;
         } else {
             this.resetStuckCount();
         }
+        this.message = message;
+    }
+
+    public void setAngle(int angle) {
         this.angle = angle;
     }
 
@@ -38,7 +38,7 @@ public class Toy {
         this.reversed = reversed;
     }
 
-    private void resetStuckCount() {
+    public void resetStuckCount() {
         this.stuckCount = 0;
     }
 
