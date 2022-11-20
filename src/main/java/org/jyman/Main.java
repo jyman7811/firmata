@@ -1,32 +1,42 @@
 package org.jyman;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.firmata4j.IODevice;
 import org.firmata4j.Pin;
 import org.firmata4j.firmata.FirmataDevice;
-
+import org.jyman.gui.InfoController;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Main extends Application {
-    @Override
-    public void start(Stage primaryStage) {
-        HBox hBox = new HBox();
 
-        primaryStage.setScene(new Scene(hBox, 500, 500));
+public class Main extends Application {
+    static Toy toy;
+
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+        FXMLLoader info = new FXMLLoader(Objects.requireNonNull(Main.class.getClassLoader().getResource("info.fxml")));
+        Scene scene = new Scene(info.load());
+
+        InfoController controller = info.getController();
+        controller.setToy(toy);
+
+        primaryStage.getIcons().add(new Image("C:\\Users\\jyman\\IdeaProjects\\firmata\\src\\main\\java\\org\\jyman\\image\\yuuka.png"));
+        primaryStage.setScene(scene);
         primaryStage.setTitle("하야세 유우카 카와이 ><");
         primaryStage.show();
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        Toy toy = new Toy();
+        toy = new Toy();
         JSerialCommTransport jSerial = new JSerialCommTransport("COM3", toy);
         IODevice device = new FirmataDevice(jSerial);
         device.start();
@@ -66,7 +76,7 @@ public class Main extends Application {
         TimerTask servoTask = new TimerTask() {
             @Override
             public void run() {
-                if (toy.getStuckCount() >= 3) {
+                if (toy.getStuckCount() >= 10) {
                     try {
                         System.out.println("시리얼이 응답하지 않습니다. 연결을 초기화합니다.");
                         device.stop();
